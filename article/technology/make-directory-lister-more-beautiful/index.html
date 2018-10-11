@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="本文记录了如何把PHP文件目录列表程序Directory Lister的字体美化为小夜版本，并将字体本地化调用。">
+<meta name="keywords" content="PHP,CSS,源码程序,Directory Lister,文件目录列表程序,HTML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修改Directory Lister的字体为小夜美化版并将字体本地化">
+<meta property="og:url" content="https://huaien.me/article/technology/make-directory-lister-more-beautiful/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="本文记录了如何把PHP文件目录列表程序Directory Lister的字体美化为小夜版本，并将字体本地化调用。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2018/07/30/5b5ebdd807858.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/30/5b5ebe0fa27f2.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/30/5b5ec86798850.png">
+<meta property="og:updated_time" content="2018-09-28T04:11:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="修改Directory Lister的字体为小夜美化版并将字体本地化">
+<meta name="twitter:description" content="本文记录了如何把PHP文件目录列表程序Directory Lister的字体美化为小夜版本，并将字体本地化调用。">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/30/5b5ebdd807858.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/technology/make-directory-lister-more-beautiful/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>修改Directory Lister的字体为小夜美化版并将字体本地化 | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/technology/make-directory-lister-more-beautiful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">修改Directory Lister的字体为小夜美化版并将字体本地化
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-30 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-30T00:00:00+09:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-28 13:11:38" itemprop="dateModified" datetime="2018-09-28T13:11:38+09:00">2018-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/technology/make-directory-lister-more-beautiful/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/technology/make-directory-lister-more-beautiful/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">本文记录了如何把PHP文件目录列表程序Directory Lister的字体美化为小夜版本，并将字体本地化调用。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前一段时间，在<a href="https://www.moerats.com/archives/547/" target="_blank" rel="noopener">Rat’s Blog</a>上看到了小夜大佬Directory Lister美化修改版，但是发现网上下载下来的美化版都和小夜大佬的字体不一样。</p>
+<p>自己安装好后是这样的</p>
+<p><img src="https://i.loli.net/2018/07/30/5b5ebdd807858.png" alt="image"></p>
+<p>但是VPSMM的是这样的：</p>
+<p><img src="https://i.loli.net/2018/07/30/5b5ebe0fa27f2.png" alt="image"></p>
+<p>明显小夜大佬的下载站好看多了。是经过优化的字体。</p>
+<p>那要如何修改呢。之前试着直接导入小夜大佬下载站的样式表， 但是还是没变化。今天重新试了一下，原来是缺少了Source code pro字体库。</p>
+<p>这样的话我们需要将这个字体库加到自己的样式表并调用它。</p>
+<h1 id="修改过程"><a href="#修改过程" class="headerlink" title="修改过程"></a>修改过程</h1><h2 id="对比样式表"><a href="#对比样式表" class="headerlink" title="对比样式表"></a>对比样式表</h2><p>将<a href="https://down.vpsmm.com/resources/themes/vpsmm/css/style.css" target="_blank" rel="noopener">小夜大佬的样式表</a>和自己的样式表对比一下后发现。自己的样式表有多处用到不同的<code>font-family</code>。</p>
+<p>打开css样式表，搜索<code>font-family</code>，发现小夜的样式表里面只有两处<code>font-family</code>。</p>
+<p>一处是第5行开始的body样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">70px</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>,Lato,Helvetica,Arial,sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一处是第105行的<code>file-info .sha1-hash</code>样式</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#file-info</span> <span class="selector-class">.sha1-hash</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Cutive Mono'</span>, monospace, serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是实际上控制全局的字体样式只有body那个。</p>
+<p>另一方面搜索我从网上下载到的小夜优化版本的CSS样式表。一共找到四处。</p>
+<p>分别是23行，43行，49行，107行的样式表。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#page-navbar</span> <span class="selector-class">.navbar-text</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Cutive Mono'</span>, monospace, serif;</span><br><span class="line">    <span class="attribute">max-width</span>: <span class="number">80%</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis;</span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#directory-list-header</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Cutive Mono'</span>, monospace, serif;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">10px</span> <span class="number">15px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#directory-listing</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Cutive Mono'</span>, monospace, serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#file-info</span> <span class="selector-class">.sha1-hash</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Cutive Mono'</span>, monospace, serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以这个版本的样式表在每个地方都定义了字体唯独body没有，而小夜优化版的样式表在body直接定义了。</p>
+<h2 id="修改样式表"><a href="#修改样式表" class="headerlink" title="修改样式表"></a>修改样式表</h2><p>知道了样式表的区别后，就对样式表进行修改。</p>
+<p>先在body样式里面插入<code>Source Code Pro</code>字体。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">70px</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;   </span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>,Lato,Helvetica,Arial,sans-serif;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着将其他地方的<code>font-family</code>注释或者删除。比如：23行，43行，49行的样式里面的<code>font-family</code>那一行，这些地方影响到<code>Source Code Pro</code>字体的生效。<br>css的注释方法是前后添加<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 要注释的代码 */</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="加入Source-Code-Pro字体"><a href="#加入Source-Code-Pro字体" class="headerlink" title="加入Source Code Pro字体"></a>加入<code>Source Code Pro</code>字体</h2><p>小夜的是直接调用网上的字体库</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"//fonts.loli.net/css?family=Source+Code+Pro"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>你也可以这样，直接将这个代码加入到主题下面的主页文件<code>index.php</code>，比如我用的版本是<code>/resources/themes/vpsmm/index.php</code>，但是如果怕以后字体库失效的话可以把这个字体本地化（下载到自己的服务器）。</p>
+<h2 id="字体本地化"><a href="#字体本地化" class="headerlink" title="字体本地化"></a>字体本地化</h2><p>打开Source Code Pro的<a href="https://fonts.loli.net/css?family=Source+Code+Pro" target="_blank" rel="noopener">样式表</a><br>可以看到样式表内容</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* latin-ext */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">'Source Code Pro'</span>), <span class="built_in">local</span>(<span class="string">'SourceCodePro-Regular'</span>), <span class="built_in">url</span>(https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlM-vWjMY.woff2) <span class="built_in">format</span>(<span class="string">'woff2'</span>);</span><br><span class="line">  <span class="attribute">unicode-range</span>: U+<span class="number">0100</span>-<span class="number">024</span>F, U+<span class="number">0259</span>, U+<span class="number">1</span>E00-<span class="number">1</span>EFF, U+<span class="number">2020</span>, U+<span class="number">20</span>A0-<span class="number">20</span>AB, U+<span class="number">20</span>AD-<span class="number">20</span>CF, U+<span class="number">2113</span>, U+<span class="number">2</span>C60-<span class="number">2</span>C7F, U+A720-A7FF;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* latin */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">'Source Code Pro'</span>), <span class="built_in">local</span>(<span class="string">'SourceCodePro-Regular'</span>), <span class="built_in">url</span>(https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevW.woff2) <span class="built_in">format</span>(<span class="string">'woff2'</span>);</span><br><span class="line">  <span class="attribute">unicode-range</span>: U+<span class="number">0000</span>-<span class="number">00</span>FF, U+<span class="number">0131</span>, U+<span class="number">0152</span>-<span class="number">0153</span>, U+<span class="number">02</span>BB-<span class="number">02</span>BC, U+<span class="number">02</span>C6, U+<span class="number">02</span>DA, U+<span class="number">02</span>DC, U+<span class="number">2000</span>-<span class="number">206</span>F, U+<span class="number">2074</span>, U+<span class="number">20</span>AC, U+<span class="number">2122</span>, U+<span class="number">2191</span>, U+<span class="number">2193</span>, U+<span class="number">2212</span>, U+<span class="number">2215</span>, U+FEFF, U+FFFD;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中有两个字体，我们可以将其下载下来。</p>
+<ul>
+<li><a href="https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlM-vWjMY.woff2" target="_blank" rel="noopener">https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlM-vWjMY.woff2</a></li>
+<li><a href="https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevW.woff2" target="_blank" rel="noopener">https://gstatic.loli.net/s/sourcecodepro/v7/HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevW.woff2</a></li>
+</ul>
+<p>这样会得到这两个字体</p>
+<ul>
+<li>HI_SiYsKILxRpg3hIP6sJ7fM7PqlM-vWjMY.woff2</li>
+<li>HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevW.woff2<br>字体的名字如果觉得太长要改成自己喜欢的名字也可以。这次我选择不修改。</li>
+</ul>
+<p>将这两个字体文件传到服务器上。位置可以自己定。这次我是传到了/resources/themes/vpsmm/Source_Code_Pro里面，Source_Code_Pro是自己新建的文件夹。</p>
+<p>这样我们可以通过调用这两个本地的字体来实现字体的样式。</p>
+<p>在/resources/themes/vpsmm/css下面新建一个样式表命名为<br><code>Source_Code_Pro.css</code></p>
+<p>内容为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* latin-ext */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">'Source Code Pro'</span>), <span class="built_in">local</span>(<span class="string">'SourceCodePro-Regular'</span>), <span class="built_in">url</span>(/resources/themes/vpsmm/Source_Code_Pro/HI_SiYsKILxRpg3hIP6sJ7fM7PqlM-vWjMY.woff2) <span class="built_in">format</span>(<span class="string">'woff2'</span>);</span><br><span class="line">  <span class="attribute">unicode-range</span>: U+<span class="number">0100</span>-<span class="number">024</span>F, U+<span class="number">0259</span>, U+<span class="number">1</span>E00-<span class="number">1</span>EFF, U+<span class="number">2020</span>, U+<span class="number">20</span>A0-<span class="number">20</span>AB, U+<span class="number">20</span>AD-<span class="number">20</span>CF, U+<span class="number">2113</span>, U+<span class="number">2</span>C60-<span class="number">2</span>C7F, U+A720-A7FF;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* latin */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'Source Code Pro'</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">font-weight</span>: <span class="number">400</span>;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">local</span>(<span class="string">'Source Code Pro'</span>), <span class="built_in">local</span>(<span class="string">'SourceCodePro-Regular'</span>), <span class="built_in">url</span>(/resources/themes/vpsmm/Source_Code_Pro/HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevW.woff2) <span class="built_in">format</span>(<span class="string">'woff2'</span>);</span><br><span class="line">  <span class="attribute">unicode-range</span>: U+<span class="number">0000</span>-<span class="number">00</span>FF, U+<span class="number">0131</span>, U+<span class="number">0152</span>-<span class="number">0153</span>, U+<span class="number">02</span>BB-<span class="number">02</span>BC, U+<span class="number">02</span>C6, U+<span class="number">02</span>DA, U+<span class="number">02</span>DC, U+<span class="number">2000</span>-<span class="number">206</span>F, U+<span class="number">2074</span>, U+<span class="number">20</span>AC, U+<span class="number">2122</span>, U+<span class="number">2191</span>, U+<span class="number">2193</span>, U+<span class="number">2212</span>, U+<span class="number">2215</span>, U+FEFF, U+FFFD;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中url部分是刚刚上传的字体的路径，如果不一样请修改。</p>
+<p>最后在主题下面的主页文件<code>index.php</code>（我的版本是在<code>/resources/themes/vpsmm/index.php</code>）里面的<code>&lt;head&gt;</code>标签内调用我们刚刚新建的包含这两个字体文件的样式表<code>Source_Code_Pro.css</code>，其实就是将前面的  <strong>加入<code>Source Code Pro</code>字体</strong>那个步骤里面的路径改为自己的本地样式表，而不是调用loli字体库的样式表。<br><code>&lt;head&gt;</code>标签内的<code>&lt;!-- STYLES --&gt;</code>的最后加入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"/resources/themes/vpsmm/css/Source_Code_Pro.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样就完成了。</p>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><p>最后对比一下刚开始的截图</p>
+<p><img src="https://i.loli.net/2018/07/30/5b5ec86798850.png" alt="和小夜字体优化版一样的字体">对比</p>
+<p>是不是好看了许多。</p>
+<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><ul>
+<li><a href="https://down.vpsmm.com/" target="_blank" rel="noopener">小夜大佬的下载站</a></li>
+<li><a href="https://www.moerats.com/archives/547/" target="_blank" rel="noopener">Rats提供的Directory Lister 美化修改版源码</a></li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/technology/make-directory-lister-more-beautiful/" title="修改Directory Lister的字体为小夜美化版并将字体本地化">https://huaien.me/article/technology/make-directory-lister-more-beautiful/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"><i class="fa fa-tag"></i> PHP</a>
+          
+            <a href="/tags/CSS/" rel="tag"><i class="fa fa-tag"></i> CSS</a>
+          
+            <a href="/tags/源码程序/" rel="tag"><i class="fa fa-tag"></i> 源码程序</a>
+          
+            <a href="/tags/Directory-Lister/" rel="tag"><i class="fa fa-tag"></i> Directory Lister</a>
+          
+            <a href="/tags/文件目录列表程序/" rel="tag"><i class="fa fa-tag"></i> 文件目录列表程序</a>
+          
+            <a href="/tags/HTML/" rel="tag"><i class="fa fa-tag"></i> HTML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/modify-h5ai-copyright/" rel="next" title="如何修改h5ai右上角的版权信息powered by h5ai">
+                <i class="fa fa-chevron-left"></i> 如何修改h5ai右上角的版权信息powered by h5ai
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/technology/git-commit-push-rejected-error/" rel="prev" title="git push远程版本和本地版本冲突时强制覆盖已有的分支有的分支">
+                git push远程版本和本地版本冲突时强制覆盖已有的分支有的分支 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">127</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com/" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改过程"><span class="nav-number">2.</span> <span class="nav-text">修改过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对比样式表"><span class="nav-number">2.1.</span> <span class="nav-text">对比样式表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改样式表"><span class="nav-number">2.2.</span> <span class="nav-text">修改样式表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加入Source-Code-Pro字体"><span class="nav-number">2.3.</span> <span class="nav-text">加入Source Code Pro字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字体本地化"><span class="nav-number">2.4.</span> <span class="nav-text">字体本地化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对比"><span class="nav-number">3.</span> <span class="nav-text">对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#感谢"><span class="nav-number">4.</span> <span class="nav-text">感谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

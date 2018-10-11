@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="除了Nginx,Apache,大家可能没有了解过Caddy，这是一个Go语言开发的HTTP服务器，可以用它来简单快速的配置支持SSL证书的网站。">
+<meta name="keywords" content="Caddy,Linux,Web服务器,后端技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Caddy来搭建网站之Caddy配置文件教程">
+<meta property="og:url" content="https://huaien.me/article/technology/use-caddy-to-run-site/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="除了Nginx,Apache,大家可能没有了解过Caddy，这是一个Go语言开发的HTTP服务器，可以用它来简单快速的配置支持SSL证书的网站。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2018/07/19/5b4fe31ad8663.png">
+<meta property="og:updated_time" content="2018-09-28T04:29:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Caddy来搭建网站之Caddy配置文件教程">
+<meta name="twitter:description" content="除了Nginx,Apache,大家可能没有了解过Caddy，这是一个Go语言开发的HTTP服务器，可以用它来简单快速的配置支持SSL证书的网站。">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/19/5b4fe31ad8663.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/technology/use-caddy-to-run-site/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>利用Caddy来搭建网站之Caddy配置文件教程 | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/technology/use-caddy-to-run-site/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">利用Caddy来搭建网站之Caddy配置文件教程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-19T00:00:00+09:00">2018-07-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-28 13:29:06" itemprop="dateModified" datetime="2018-09-28T13:29:06+09:00">2018-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/technology/use-caddy-to-run-site/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/technology/use-caddy-to-run-site/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">除了Nginx,Apache,大家可能没有了解过Caddy，这是一个Go语言开发的HTTP服务器，可以用它来简单快速的配置支持SSL证书的网站。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <p>前面我们了解了<a href="https://huaien.me/article/backend/caddy-a-light-http-server/">Caddy是一个极简HTTP服务器</a>，可以用来快速配置网站。并且支持HTTPS，支持自己的SSL证书或者只需要一个邮箱，Caddy帮你自动生成Let’s Encrypt的免费证书，简单的配置就能搭建好一个HTTPS的Web服务器环境。<br><a id="more"></a></p>
+<h3 id="安装Caddy"><a href="#安装Caddy" class="headerlink" title="安装Caddy"></a>安装Caddy</h3><p>这里是复习一下前面的内容。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-certificate http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/ToyoDAdoubi/doubi/master/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> install http.filemanager</span><br><span class="line"></span><br><span class="line"># 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line"></span><br><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-c# 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line">ertificate http<span class="variable">s:</span>//softs.loan/Bash/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> install http.filemanager</span><br></pre></td></tr></table></figure></p>
+<p>安装完成<br><img src="https://i.loli.net/2018/07/19/5b4fe31ad8663.png" alt="image"></p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>以下使用方法仅适用于本一键安装脚本安装的Caddy。<br>其他方式安装的Caddy需要其他的操作指令。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">启动：<span class="regexp">/etc/</span>init.d/caddy start</span><br><span class="line"></span><br><span class="line">停止：<span class="regexp">/etc/</span>init.d/caddy stop</span><br><span class="line"></span><br><span class="line">重启：<span class="regexp">/etc/</span>init.d/caddy restart</span><br><span class="line"></span><br><span class="line">查看状态：<span class="regexp">/etc/</span>init.d/caddy status</span><br><span class="line"></span><br><span class="line">查看Caddy启动日志： tail -f <span class="regexp">/tmp/</span>caddy.log</span><br><span class="line"></span><br><span class="line">安装目录：<span class="regexp">/usr/</span>local/caddy</span><br><span class="line"></span><br><span class="line">Caddy配置文件位置：<span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br><span class="line"></span><br><span class="line">Caddy自动申请SSL证书位置：<span class="regexp">/.caddy/</span>acme<span class="regexp">/acme-v01.api.letsencrypt.org/</span>sites<span class="regexp">/xxx.xxx(域名)/</span></span><br></pre></td></tr></table></figure>
+<p>根据上面我们可以知道Caddy配置文件位置：/usr/local/caddy/Caddyfile</p>
+<p>这个文件就是我们用来添加网站，配置SSL等操作的重要文件。</p>
+<h3 id="配置虚拟主机、添加网站"><a href="#配置虚拟主机、添加网站" class="headerlink" title="配置虚拟主机、添加网站"></a>配置虚拟主机、添加网站</h3><h4 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h4><p>这里可以通过两种方式来修改</p>
+<p>Caddy配置文件 /usr/local/caddy/Caddyfile</p>
+<p>一种是直接<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br></pre></td></tr></table></figure></p>
+<p>另一种是直接用echo来添加内容到指定文件。</p>
+<p>例如</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#清空覆盖源文件内容替换为新内容</span></span><br><span class="line">echo <span class="string">"配置内容"</span> &gt; <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在源文件内容最后追加新内容</span></span><br><span class="line">echo <span class="string">"配置内容"</span> &gt;&gt; <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br></pre></td></tr></table></figure>
+<h4 id="Caddyfile-的格式"><a href="#Caddyfile-的格式" class="headerlink" title="Caddyfile 的格式"></a>Caddyfile 的格式</h4><p>Caddfile的格式还是比较简单的，首先第一行必须是网站的地址，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">ip端口</span></span><br><span class="line">localhost:8080</span><br><span class="line"><span class="meta">#</span><span class="bash">域名</span></span><br><span class="line">huaien.me</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>地址可以带一个端口号，那么 caddy 只会在这个端口上开启 http 服务，而不会开启 https，如果不写端口号的话，caddy 会默认绑定 80 和 443 端口，同时启动 http 和 https 服务。</p>
+<p>地址后面可以再跟一大堆指令（directive）。Caddyfile 的基本格式就是这样，由一个网站地址和指令组成，是不是很简单。</p>
+</blockquote>
+<h4 id="单网站写法"><a href="#单网站写法" class="headerlink" title="单网站写法"></a>单网站写法</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">example.com</span><br><span class="line">root <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>www</span><br><span class="line"><span class="comment">#其他指令</span></span><br></pre></td></tr></table></figure>
+<h4 id="多网站写法"><a href="#多网站写法" class="headerlink" title="多网站写法"></a>多网站写法</h4><p>网站后面用{}花括号包起来</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example.<span class="class">com1 </span>&#123;</span><br><span class="line">  gzip</span><br><span class="line">  root <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www</span><br><span class="line">  <span class="meta">#其他指令</span></span><br><span class="line">&#125;</span><br><span class="line">example.<span class="class">com2 </span>&#123;</span><br><span class="line">  gzip</span><br><span class="line">  root <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www</span><br><span class="line">  <span class="meta">#其他指令</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="一些常见的指令"><a href="#一些常见的指令" class="headerlink" title="一些常见的指令"></a>一些常见的指令</h4><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#网站根目录</span></span><br><span class="line">root /usr/local/caddy/www/example.com</span><br><span class="line"></span><br><span class="line"><span class="meta">#log日志</span></span><br><span class="line">log /usr/local/caddy/www/example.log</span><br><span class="line"></span><br><span class="line"><span class="meta">#目录访问</span></span><br><span class="line">browse</span><br><span class="line"></span><br><span class="line"><span class="meta">#gzip压缩</span></span><br><span class="line">gzip</span><br><span class="line"></span><br><span class="line"><span class="meta">#自主ssl证书</span></span><br><span class="line">tls /path/ssl/example.com.crt /path/ssl/example.com.key</span><br><span class="line"></span><br><span class="line"><span class="meta">#caddy帮你申请Let's Encrypt证书并续约</span></span><br><span class="line">tls 邮箱地址</span><br><span class="line"></span><br><span class="line"><span class="meta">#访问口令认证（用户emiria，密码password）</span></span><br><span class="line">basicauth / admin password</span><br><span class="line"></span><br><span class="line"><span class="meta">#跳转功能</span></span><br><span class="line">redir http:<span class="comment">//example.com&#123;url&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#自定义错误页面</span></span><br><span class="line">errors &#123;</span><br><span class="line">    <span class="number">404</span> <span class="number">404.</span>html</span><br><span class="line">    <span class="number">500</span> /usr/local/caddy/www/<span class="number">500.</span>html</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#使用了 fastcgi 指令，代表把请求通过 fastcgi 传给 php，ruby 等后端程序</span></span><br><span class="line">fastcgi / <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span> php &#123;</span><br><span class="line">    index index.php</span><br><span class="line"></span><br><span class="line"><span class="meta">#header 指令代表为所有的 /api/xxx 的请求加上 Access-Control-Allow-Origin 和 Access-Control-Allow-Methods 这两个 header，从而能支持 javascript 跨域访问 ，第 9 行代表删除 Server header，防止别人看到服务器类型</span></span><br><span class="line">header /api &#123;</span><br><span class="line">    Access-Control-Allow-Origin  *</span><br><span class="line">    Access-Control-Allow-Methods <span class="string">"GET, POST, OPTIONS"</span></span><br><span class="line">    -Server</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#rewrite 指令，这个指令的作用是 服务器内部重定向 在下面的参数 to 后面，又跟了三个参数，这个功能上有点类似 nginx 的 try_files 。</span></span><br><span class="line">rewrite &#123;</span><br><span class="line">    to &#123;path&#125; &#123;path&#125;/ /index.php?&#123;query&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更多配置参考：<a href="https://caddyserver.com/tutorial/caddyfile" target="_blank" rel="noopener">https://caddyserver.com/tutorial/caddyfile</a><br>设置文档参考：<a href="https://caddyserver.com/docs" target="_blank" rel="noopener">https://caddyserver.com/docs</a></p>
+<h4 id="多网站配置例子"><a href="#多网站配置例子" class="headerlink" title="多网站配置例子"></a>多网站配置例子</h4><h5 id="vi模式修改Caddy配置文件"><a href="#vi模式修改Caddy配置文件" class="headerlink" title="vi模式修改Caddy配置文件"></a>vi模式修改Caddy配置文件</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br></pre></td></tr></table></figure>
+<p>进入vi界面后按i键进入insert模式</p>
+<p>填入以下*(花括号与域名之间需要半角空格)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">第一个网站</span></span><br><span class="line">huaien.me &#123;</span><br><span class="line"><span class="meta"> #</span><span class="bash">指定根目录</span></span><br><span class="line"> root /usr/local/caddy/www/huaien.me</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启gzip压缩</span></span><br><span class="line"> gzip</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启https,使用免费证书自签</span></span><br><span class="line"> tls 邮箱</span><br><span class="line"><span class="meta"> #</span><span class="bash">如果有自己的证书，可以指定证书路径</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">tls /path/ssl/example.com.crt /path/ssl/example.com.key</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">开启<span class="built_in">log</span>记录</span></span><br><span class="line"> log /usr/local/caddy/www/huaien.me/example.log</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">第二个网站</span></span><br><span class="line">huaien2.me &#123;</span><br><span class="line"><span class="meta"> #</span><span class="bash">指定根目录</span></span><br><span class="line"> root /usr/local/caddy/www/huaien2.me</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启gzip压缩</span></span><br><span class="line"> gzip</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启https,使用免费证书自签</span></span><br><span class="line"> tls 邮箱</span><br><span class="line"><span class="meta"> #</span><span class="bash">如果有自己的证书，可以指定证书路径</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">tls /path/ssl/example.com.crt /path/ssl/example.com.key</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">开启<span class="built_in">log</span>记录</span></span><br><span class="line"> log /usr/local/caddy/www/huaien2.me/example.log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改完后，按左上角esc键退出insert模式，再按半角冒号<br><figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">:wq</span></span><br></pre></td></tr></table></figure></p>
+<p>保存修改并退出。</p>
+<p>每次修改Caddyfile文件都需要重启Caddy使其生效</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/caddy restart</span></span><br></pre></td></tr></table></figure>
+<h5 id="直接追加内容至Caddy配置文件"><a href="#直接追加内容至Caddy配置文件" class="headerlink" title="直接追加内容至Caddy配置文件"></a>直接追加内容至Caddy配置文件</h5><p>以下一串是整体代码，需要复制全部内容*（不是一句一句复制粘贴）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">echo "huaien.me &#123;</span><br><span class="line"><span class="meta"> #</span><span class="bash">指定根目录</span></span><br><span class="line"> root /usr/local/caddy/www/huaien.me</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启gzip压缩</span></span><br><span class="line"> gzip</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启https,使用免费证书自签</span></span><br><span class="line"> tls 邮箱</span><br><span class="line"><span class="meta"> #</span><span class="bash">如果有自己的证书，可以指定证书路径</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">tls /path/ssl/example.com.crt /path/ssl/example.com.key</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">开启<span class="built_in">log</span>记录</span></span><br><span class="line"> log /usr/local/caddy/www/huaien.me/example.log</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">第二个网站</span></span><br><span class="line">huaien2.me &#123;</span><br><span class="line"><span class="meta"> #</span><span class="bash">指定根目录</span></span><br><span class="line"> root /usr/local/caddy/www/huaien2.me</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启gzip压缩</span></span><br><span class="line"> gzip</span><br><span class="line"><span class="meta"> #</span><span class="bash">开启https,使用免费证书自签</span></span><br><span class="line"> tls 邮箱</span><br><span class="line"><span class="meta"> #</span><span class="bash">如果有自己的证书，可以指定证书路径</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">tls /path/ssl/example.com.crt /path/ssl/example.com.key</span></span><br><span class="line"><span class="meta"> #</span><span class="bash">开启<span class="built_in">log</span>记录</span></span><br><span class="line"> log /usr/local/caddy/www/huaien2.me/example.log</span><br><span class="line">&#125;" &gt; /usr/local/caddy/Caddyfile</span><br></pre></td></tr></table></figure>
+<p>重启Caddy使其生效</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/caddy restart</span></span><br></pre></td></tr></table></figure>
+<p>其他操作就是修改DNS记录，添加A记录到该服务器IP并等其生效。然后通过ftp上传网页到指定网站根目录。</p>
+<p>就可以访问了。</p>
+<h3 id="本人在折腾中遇到的问题"><a href="#本人在折腾中遇到的问题" class="headerlink" title="本人在折腾中遇到的问题"></a>本人在折腾中遇到的问题</h3><p>在添加网站的时候自己遇到了几个问题，在这里记录一下。</p>
+<h4 id="无法重启-启动Caddy"><a href="#无法重启-启动Caddy" class="headerlink" title="无法重启/启动Caddy"></a>无法重启/启动Caddy</h4><p>好几次都遇到无法重启或者启动Caddy的情况。<br>但是基本不外乎就是Caddyfile里面的内容出错了。<br>遇到问题时候先查看Caddy的log，里面会显示是什么原因无法启动。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /tmp/caddy.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<h4 id="网站的网址写法"><a href="#网站的网址写法" class="headerlink" title="网站的网址写法"></a>网站的网址写法</h4><p>按正常写法单网站是直接下面这样写<br><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">domain</span>.com</span><br><span class="line">gzip</span><br><span class="line">root /usr/<span class="built_in">local</span>/caddy/www/<span class="built_in">domain</span>.com</span><br></pre></td></tr></table></figure></p>
+<p>但是如果遇到无法访问网站好像可以网址前面加上  http://  可以正常访问。</p>
+<p>如果还是有问题，重新查看配置内容。</p>
+<h4 id="开启SSL的方法"><a href="#开启SSL的方法" class="headerlink" title="开启SSL的方法"></a>开启SSL的方法</h4><p>只需要在网站内配置指令加入</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tls</span> 自己的证书路径</span><br></pre></td></tr></table></figure>
+<p>或者<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">tls</span> 自己的邮箱</span><br></pre></td></tr></table></figure></p>
+<p>如果在第一行的域名用的是domain.com没有  http://  ，这种情况是默认开通80和443端口，默认启用https</p>
+<h3 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h3><p><a href="https://doub.io/shell-jc1/" target="_blank" rel="noopener">https://doub.io/shell-jc1/</a><br><a href="https://www.moerats.com/archives/404/" target="_blank" rel="noopener">https://www.moerats.com/archives/404/</a><br><a href="https://www.zybuluo.com/zwh8800/note/844776" target="_blank" rel="noopener">https://www.zybuluo.com/zwh8800/note/844776</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/technology/use-caddy-to-run-site/" title="利用Caddy来搭建网站之Caddy配置文件教程">https://huaien.me/article/technology/use-caddy-to-run-site/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          
+            <a href="/tags/后端技术/" rel="tag"><i class="fa fa-tag"></i> 后端技术</a>
+          
+            <a href="/tags/Caddy/" rel="tag"><i class="fa fa-tag"></i> Caddy</a>
+          
+            <a href="/tags/Web服务器/" rel="tag"><i class="fa fa-tag"></i> Web服务器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/caddy-a-light-http-server/" rel="next" title="Caddy一个轻量的Go语言HTTP服务器的一键安装脚本教程">
+                <i class="fa fa-chevron-left"></i> Caddy一个轻量的Go语言HTTP服务器的一键安装脚本教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/technology/use-caddy-filemanager-to-build-personal-netdisk/" rel="prev" title="利用Caddy的Filemanager插件搭建个人网盘教程">
+                利用Caddy的Filemanager插件搭建个人网盘教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">127</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com/" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Caddy"><span class="nav-number">1.</span> <span class="nav-text">安装Caddy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置虚拟主机、添加网站"><span class="nav-number">3.</span> <span class="nav-text">配置虚拟主机、添加网站</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改方法"><span class="nav-number">3.1.</span> <span class="nav-text">修改方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Caddyfile-的格式"><span class="nav-number">3.2.</span> <span class="nav-text">Caddyfile 的格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单网站写法"><span class="nav-number">3.3.</span> <span class="nav-text">单网站写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多网站写法"><span class="nav-number">3.4.</span> <span class="nav-text">多网站写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一些常见的指令"><span class="nav-number">3.5.</span> <span class="nav-text">一些常见的指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多网站配置例子"><span class="nav-number">3.6.</span> <span class="nav-text">多网站配置例子</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#vi模式修改Caddy配置文件"><span class="nav-number">3.6.1.</span> <span class="nav-text">vi模式修改Caddy配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#直接追加内容至Caddy配置文件"><span class="nav-number">3.6.2.</span> <span class="nav-text">直接追加内容至Caddy配置文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本人在折腾中遇到的问题"><span class="nav-number">4.</span> <span class="nav-text">本人在折腾中遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无法重启-启动Caddy"><span class="nav-number">4.1.</span> <span class="nav-text">无法重启/启动Caddy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#网站的网址写法"><span class="nav-number">4.2.</span> <span class="nav-text">网站的网址写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启SSL的方法"><span class="nav-number">4.3.</span> <span class="nav-text">开启SSL的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考来源"><span class="nav-number">5.</span> <span class="nav-text">参考来源</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

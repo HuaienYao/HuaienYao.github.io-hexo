@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="Caddy自带的Filemanager插件可用很完美的搭建一个个人网盘，本文记录了如何利用Caddy的Filemanager插件搭建个人网盘。">
+<meta name="keywords" content="Caddy,Linux,Web服务器,个人网盘,后端技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Caddy的Filemanager插件搭建个人网盘教程">
+<meta property="og:url" content="https://huaien.me/article/technology/use-caddy-filemanager-to-build-personal-netdisk/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="Caddy自带的Filemanager插件可用很完美的搭建一个个人网盘，本文记录了如何利用Caddy的Filemanager插件搭建个人网盘。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-images.githubusercontent.com/5447088/28537288-39be4288-70a2-11e7-8ce9-0813d59f46b7.gif">
+<meta property="og:updated_time" content="2018-09-28T04:24:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Caddy的Filemanager插件搭建个人网盘教程">
+<meta name="twitter:description" content="Caddy自带的Filemanager插件可用很完美的搭建一个个人网盘，本文记录了如何利用Caddy的Filemanager插件搭建个人网盘。">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/5447088/28537288-39be4288-70a2-11e7-8ce9-0813d59f46b7.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/technology/use-caddy-filemanager-to-build-personal-netdisk/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>利用Caddy的Filemanager插件搭建个人网盘教程 | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/technology/use-caddy-filemanager-to-build-personal-netdisk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">利用Caddy的Filemanager插件搭建个人网盘教程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-21 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-21T00:00:00+09:00">2018-07-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-28 13:24:52" itemprop="dateModified" datetime="2018-09-28T13:24:52+09:00">2018-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/technology/use-caddy-filemanager-to-build-personal-netdisk/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/technology/use-caddy-filemanager-to-build-personal-netdisk/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">Caddy自带的Filemanager插件可用很完美的搭建一个个人网盘，本文记录了如何利用Caddy的Filemanager插件搭建个人网盘。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <p>前面我们了解了<a href="https://huaien.me/article/backend/caddy-a-light-http-server/">Caddy是一个极简HTTP服务器</a>，可以用来<a href="https://huaien.me/article/backend/use-caddy-to-run-site/">快速配置网站</a>。并且支持HTTPS，支持自己的SSL证书或者只需要一个邮箱，Caddy帮你自动生成Let’s Encrypt的免费证书，简单的配置就能搭建好一个HTTPS的Web服务器环境。<br>其实Caddy自带的Filemanager插件可以直接用来搭建一个个人网盘，而且支持的功能还挺多，界面还挺好看。<br><a id="more"></a></p>
+<h3 id="认识一下File-Manager"><a href="#认识一下File-Manager" class="headerlink" title="认识一下File Manager"></a>认识一下File Manager</h3><p><img src="https://user-images.githubusercontent.com/5447088/28537288-39be4288-70a2-11e7-8ce9-0813d59f46b7.gif" alt="File Manager"></p>
+<p>看上面的动图可以看到用Filemanager可以很方便的在线管理文件。</p>
+<p>那么filemanager有哪些功能呢</p>
+<h4 id="Caddy-FileBrowser扩展介绍"><a href="#Caddy-FileBrowser扩展介绍" class="headerlink" title="Caddy FileBrowser扩展介绍"></a>Caddy FileBrowser扩展介绍</h4><p>FileBrowser 是基于Caddy的扩展。它提供文件管理界面，可用于 上传/下载/删除/预览和重命名 等该目录中的文件。</p>
+<ul>
+<li>支持 上传文件</li>
+<li>支持 按类型 搜索文件</li>
+<li>支持 批量压缩 文件下载</li>
+<li>支持 多用户管理(权限可控)</li>
+<li>支持 在网页执行 Linux命令</li>
+<li>支持 创建 共享链接(限时/永久)</li>
+<li>支持 在线编辑 各类文本文件</li>
+<li>支持 在线浏览 图片/文本/视频等</li>
+<li>支持 新建/重命名/移动/删除 文件和文件夹等<br>部署简单，几步完成，无需任何依赖环境<br>等等 …</li>
+</ul>
+<p>并且支持中文，日语，英语等多种语言。其中<a href="https://github.com/hacdias/filemanager/issues/168" target="_blank" rel="noopener">中文文件</a>由<a href="https://doub.io/jzzy-3/" target="_blank" rel="noopener">逗比根据地</a>博主制作。</p>
+<h3 id="安装Caddy与Filemanager插件"><a href="#安装Caddy与Filemanager插件" class="headerlink" title="安装Caddy与Filemanager插件"></a>安装Caddy与Filemanager插件</h3><p>如果你已经安装了Caddy，但是没有Filemanager插件，你需要重新安装一次Caddy，附带Filemanager</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-certificate http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/ToyoDAdoubi/doubi/master/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> install http.filemanager</span><br><span class="line"></span><br><span class="line"># 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line"></span><br><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-c# 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line">ertificate http<span class="variable">s:</span>//softs.loan/Bash/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> install http.filemanager</span><br></pre></td></tr></table></figure>
+<p>==注意：此文中的Caddy管理命令与Caddy文件夹路径等仅试用于本文的脚本。==</p>
+<h3 id="Caddy-使用说明"><a href="#Caddy-使用说明" class="headerlink" title="Caddy 使用说明"></a>Caddy 使用说明</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">启动：<span class="regexp">/etc/</span>init.d/caddy start</span><br><span class="line"></span><br><span class="line">停止：<span class="regexp">/etc/</span>init.d/caddy stop</span><br><span class="line"></span><br><span class="line">重启：<span class="regexp">/etc/</span>init.d/caddy restart</span><br><span class="line"></span><br><span class="line">查看状态：<span class="regexp">/etc/</span>init.d/caddy status</span><br><span class="line"></span><br><span class="line">查看Caddy启动日志： tail -f <span class="regexp">/tmp/</span>caddy.log</span><br><span class="line"></span><br><span class="line">Caddy配置文件位置：<span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>Caddyfile</span><br><span class="line"></span><br><span class="line">FileBrowser数据库位置：<span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>filemanager.db</span><br><span class="line"></span><br><span class="line">Caddy自动申请SSL证书位置：<span class="regexp">/.caddy/</span>acme<span class="regexp">/acme-v01.api.letsencrypt.org/</span>sites<span class="regexp">/xxx.xxx(域名)/</span></span><br></pre></td></tr></table></figure>
+<h3 id="修改Caddyfile来配置Filemanager"><a href="#修改Caddyfile来配置Filemanager" class="headerlink" title="修改Caddyfile来配置Filemanager"></a>修改Caddyfile来配置Filemanager</h3><p>首先先创建一个网站根目录文件夹</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>www &amp;&amp; mkdir <span class="regexp">/usr/</span>local<span class="regexp">/caddy/</span>www<span class="regexp">/pan</span></span><br></pre></td></tr></table></figure>
+<p>根据之前的教程，可以vi修改Caddyfile或者echo修改Caddyfile两种方式来配置。  </p>
+<h4 id="vi修改方式"><a href="#vi修改方式" class="headerlink" title="vi修改方式"></a>vi修改方式</h4><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example.<span class="class">com </span>&#123;</span><br><span class="line"> root <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www/pan</span><br><span class="line"> timeouts none</span><br><span class="line"> <span class="meta">#这里使用免费证书</span></span><br><span class="line"> tls xxx@gmail.com</span><br><span class="line"> gzip</span><br><span class="line"> filemanager / <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www/<span class="class">pan </span>&#123;</span><br><span class="line">  database <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>filemanager.db</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="echo修改方式"><a href="#echo修改方式" class="headerlink" title="echo修改方式"></a>echo修改方式</h4><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">echo "example.com &#123;</span><br><span class="line"> root /usr/<span class="keyword">local</span>/caddy/www/pan</span><br><span class="line"> timeouts none</span><br><span class="line"> #这里使用免费证书</span><br><span class="line"> tls xxx@gmail.com</span><br><span class="line"> gzip</span><br><span class="line"> filemanager / /usr/<span class="keyword">local</span>/caddy/www/pan &#123;</span><br><span class="line">  database /usr/<span class="keyword">local</span>/caddy/filemanager.<span class="keyword">db</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;" &gt; /usr/<span class="keyword">local</span>/caddy/Caddyfile</span><br></pre></td></tr></table></figure>
+<p>==注意此操作会覆盖原Caddyfile文件内容，如果需要在原文件最后追加请修改最后一行为==<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;<span class="string">" &gt;&gt; /usr/local/caddy/Caddyfile</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="了解FileBrowser扩展各个参数"><a href="#了解FileBrowser扩展各个参数" class="headerlink" title="了解FileBrowser扩展各个参数"></a>了解FileBrowser扩展各个参数</h4><figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">filemanager <span class="string">[url]</span> <span class="string">[scope]</span> &#123;</span><br><span class="line"> database path</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>url 是要设置的网站URL。默认是 / (比如 /yourname 那么访问入口就是 <a href="http://ip/yourname" target="_blank" rel="noopener">http://ip/yourname</a> )。</li>
+<li>scope 是要浏览的服务器文件目录路径，可以使相对或绝对路径。默认是 ./ (服务器上面文件的绝对或相对路径)。</li>
+<li>database path 是 filemanager 的数据库路径（如果不写这个参数，则默认就是 /usr/local/caddy/filemanager.db）。</li>
+</ul>
+<h4 id="重启Caddy"><a href="#重启Caddy" class="headerlink" title="重启Caddy"></a>重启Caddy</h4><p>当你已经配置完上面步骤后，那就需要启动Caddy了。<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/caddy start</span></span><br></pre></td></tr></table></figure></p>
+<p>#如果启动失败可以看Caddy日志：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /tmp/caddy.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<h3 id="开始使用FileBrowser"><a href="#开始使用FileBrowser" class="headerlink" title="开始使用FileBrowser"></a>开始使用FileBrowser</h3><h4 id="登陆，修改密码"><a href="#登陆，修改密码" class="headerlink" title="登陆，修改密码"></a>登陆，修改密码</h4><p>打开网站，第一次登陆的默认账号密码都是admin，登陆后可以修改密码。</p>
+<h4 id="切换中文"><a href="#切换中文" class="headerlink" title="切换中文"></a>切换中文</h4><p>进入后可以点击左边侧栏 [Settings] 进入设置页面，然后选择 [language - Chinese (Simplified)] ，并点击右下角第一个 [Update] 按钮更新。</p>
+<h4 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h4><p>一些按键有对应的作用：</p>
+<ul>
+<li>F1 - 查看帮助</li>
+<li>F2 - 重命名 文件/文件夹</li>
+<li>DEL - 删除所选 文件/文件夹</li>
+<li>ESC - 清除当前选择 或 关闭提示</li>
+<li>CTRL + S - 保存下载 文件/文件夹（zip压缩）</li>
+<li>CTRL + 鼠标左键 单击 - 选择多个文件/文件夹</li>
+<li>鼠标左键 双击 - 打开文件/文件夹</li>
+<li>鼠标左键 单击 - 选择文件/文件夹</li>
+</ul>
+<h3 id="维护FIlemanager"><a href="#维护FIlemanager" class="headerlink" title="维护FIlemanager"></a>维护FIlemanager</h3><h4 id="升级FileBrowser"><a href="#升级FileBrowser" class="headerlink" title="升级FileBrowser"></a>升级FileBrowser</h4><p>只需要重新前面的Caddy安装命令覆盖安装Caddy＋Filemanager即可（只会覆盖 Caddy自身，不影响配置文件），覆盖安装后启动Caddy即可。</p>
+<h4 id="卸载FileBrowser"><a href="#卸载FileBrowser" class="headerlink" title="卸载FileBrowser"></a>卸载FileBrowser</h4><p>因为扩展是集成于Caddy中的，所以无法单独卸载某个扩展。<br>所以卸载的话需要将前面的Caddy安装命令的install改为uninstall就可以了。<br>例如<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-certificate http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/ToyoDAdoubi/doubi/master/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> uninstall http.filemanager</span><br><span class="line"></span><br><span class="line"># 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line"></span><br><span class="line">wget -<span class="keyword">N</span> --<span class="keyword">no</span>-check-c# 如果上面这个脚本无法下载，尝试使用备用下载：</span><br><span class="line">ertificate http<span class="variable">s:</span>//softs.loan/Bash/caddy_install.<span class="keyword">sh</span> &amp;&amp; chmod +<span class="keyword">x</span> caddy_install.<span class="keyword">sh</span> &amp;&amp; bash caddy_install.<span class="keyword">sh</span> uninstall http.filemanager</span><br></pre></td></tr></table></figure></p>
+<h3 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h3><h4 id="启动显示成功，但是实际未运行"><a href="#启动显示成功，但是实际未运行" class="headerlink" title="启动显示成功，但是实际未运行"></a>启动显示成功，但是实际未运行</h4><p>因为 服务脚本判断的问题，只判断了nohub是否运行 Caddy成功，但没有判断 Caddy 是否保持正常运行。</p>
+<p>你可以理解为，nohub成功启动了 Caddy，但是 Caddy因为配置文件错误等原因，启动后又退出了。</p>
+<p>所以这种情况下，你应该去查看启动日志：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -f /tmp/caddy.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<h4 id="Caddy下载文件频繁中断"><a href="#Caddy下载文件频繁中断" class="headerlink" title="Caddy下载文件频繁中断"></a>Caddy下载文件频繁中断</h4><p>可能是因为 Caddy的超时时间机制导致的，可以在配置文件中加入这句代码 timeouts none ，例如这样：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">example.<span class="class">com </span>&#123;</span><br><span class="line"> root <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www/pan</span><br><span class="line"> timeouts none</span><br><span class="line"> <span class="meta">#这里使用免费证书</span></span><br><span class="line"> tls xxx@gmail.com</span><br><span class="line"> gzip</span><br><span class="line"> filemanager / <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>www/<span class="class">pan </span>&#123;</span><br><span class="line">  database <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>filemanager.db</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Caddy启动失败，打开-http-ip-显示的是-It-works"><a href="#Caddy启动失败，打开-http-ip-显示的是-It-works" class="headerlink" title="Caddy启动失败，打开 http://ip 显示的是 It works !"></a>Caddy启动失败，打开 <a href="http://ip" target="_blank" rel="noopener">http://ip</a> 显示的是 It works !</h4><p>一些系统会自带 apache2 ，而 apache2 会占用80端口，导致Caddy无法绑定端口，所以只要关掉就好了。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">netstat</span> -lntp</span><br><span class="line"><span class="comment"># 我们可以通过这个命令查看是不是被其他软件占用了 80 端口。</span></span><br></pre></td></tr></table></figure>
+<p>不过 apache2 会默认开机自启动，如果不需要可以关闭自启动或者卸载 apache2 。</p>
+<p>停止 Apache2</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/apache2 stop</span><br><span class="line"><span class="comment"># 尝试使用上面这个关闭，如果没效果或者提示什么错误无法关闭，那就用下面这个强行关闭进程。</span></span><br><span class="line"><span class="keyword">kill</span> -<span class="number">9</span> $(ps -ef|<span class="keyword">grep</span> <span class="string">"apache2"</span>|<span class="keyword">grep</span> -v <span class="string">"grep"</span>|awk <span class="string">'&#123;print $2&#125;'</span>)</span><br></pre></td></tr></table></figure>
+<p>取消开机自启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 以下代码仅限 Debian/Ubuntu 系统 <span class="comment">#</span></span></span><br><span class="line">update-rc.d -f apache2 remove</span><br></pre></td></tr></table></figure>
+<p>卸载 Apache2</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以下代码仅限 Debian/Ubuntu 系统 #</span></span><br><span class="line">apt-<span class="builtin-name">get</span> <span class="builtin-name">remove</span> --purge apache2</span><br></pre></td></tr></table></figure>
+<p>关闭 Apache2后，就可以尝试启动 Caddy ，并试试能不能打开网页。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/i</span>nit.d<span class="regexp">/caddy start</span></span><br></pre></td></tr></table></figure>
+<h4 id="启动-Caddy后，无法访问"><a href="#启动-Caddy后，无法访问" class="headerlink" title="启动 Caddy后，无法访问"></a>启动 Caddy后，无法访问</h4><p>这个可能是防火墙的问题，开放防火墙端口即可。</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport 端口 -j ACCEPT</span><br><span class="line">iptables -I INPUT -m <span class="keyword">state</span> --state NEW -m udp -p udp --dport 端口 -j ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除防火墙规则，内容一样把 -I 换成 -D 就行了：</span></span><br><span class="line">iptables -D INPUT -m <span class="keyword">state</span> --state NEW -m tcp -p tcp --dport 端口 -j ACCEPT</span><br><span class="line">iptables -D INPUT -m <span class="keyword">state</span> --state NEW -m udp -p udp --dport 端口 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<h4 id="FileBrowser账号密码忘了或想要重置账号信息"><a href="#FileBrowser账号密码忘了或想要重置账号信息" class="headerlink" title="FileBrowser账号密码忘了或想要重置账号信息"></a>FileBrowser账号密码忘了或想要重置账号信息</h4><p>我们可以重置FileBrowser的数据库文件来清除所有账号信息，这样我们就变成初始账号和密码了(admin/admin)。</p>
+<blockquote>
+<p>注意：删除数据库文件只会影响数据库内储存的各账号信息，并不会影响服务器本地的文件夹/文件。</p>
+</blockquote>
+<p>很简单，关闭Caddy，然后删除FileBrowser数据库文件，启动Caddy，使用初始账号密码登陆。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta-keyword">/etc/</span>init.d/caddy stop</span><br><span class="line">rm -rf <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/caddy/</span>filemanager.db</span><br><span class="line"><span class="meta-keyword">/etc/</span>init.d/caddy start</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://doub.io/jzzy-3/" target="_blank" rel="noopener">利用 Caddy FileBrowser扩展 非常简单的部署 私人网盘/在线文件管理器</a></p>
+<p><a href="https://caddyserver.com/docs/http.filemanager" target="_blank" rel="noopener">Caddy 文档</a></p>
+<p><a href="https://github.com/filebrowser/filebrowser" target="_blank" rel="noopener">Github 项目</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/technology/use-caddy-filemanager-to-build-personal-netdisk/" title="利用Caddy的Filemanager插件搭建个人网盘教程">https://huaien.me/article/technology/use-caddy-filemanager-to-build-personal-netdisk/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          
+            <a href="/tags/后端技术/" rel="tag"><i class="fa fa-tag"></i> 后端技术</a>
+          
+            <a href="/tags/Caddy/" rel="tag"><i class="fa fa-tag"></i> Caddy</a>
+          
+            <a href="/tags/Web服务器/" rel="tag"><i class="fa fa-tag"></i> Web服务器</a>
+          
+            <a href="/tags/个人网盘/" rel="tag"><i class="fa fa-tag"></i> 个人网盘</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/use-caddy-to-run-site/" rel="next" title="利用Caddy来搭建网站之Caddy配置文件教程">
+                <i class="fa fa-chevron-left"></i> 利用Caddy来搭建网站之Caddy配置文件教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/technology/use-caddy-to-build-webdav-server/" rel="prev" title="利用Caddy来搭建可挂载的WebDAV个人网盘+配合FileBrowser来管理文件">
+                利用Caddy来搭建可挂载的WebDAV个人网盘+配合FileBrowser来管理文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">127</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com/" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#认识一下File-Manager"><span class="nav-number">1.</span> <span class="nav-text">认识一下File Manager</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Caddy-FileBrowser扩展介绍"><span class="nav-number">1.1.</span> <span class="nav-text">Caddy FileBrowser扩展介绍</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Caddy与Filemanager插件"><span class="nav-number">2.</span> <span class="nav-text">安装Caddy与Filemanager插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caddy-使用说明"><span class="nav-number">3.</span> <span class="nav-text">Caddy 使用说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改Caddyfile来配置Filemanager"><span class="nav-number">4.</span> <span class="nav-text">修改Caddyfile来配置Filemanager</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vi修改方式"><span class="nav-number">4.1.</span> <span class="nav-text">vi修改方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#echo修改方式"><span class="nav-number">4.2.</span> <span class="nav-text">echo修改方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解FileBrowser扩展各个参数"><span class="nav-number">4.3.</span> <span class="nav-text">了解FileBrowser扩展各个参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重启Caddy"><span class="nav-number">4.4.</span> <span class="nav-text">重启Caddy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始使用FileBrowser"><span class="nav-number">5.</span> <span class="nav-text">开始使用FileBrowser</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#登陆，修改密码"><span class="nav-number">5.1.</span> <span class="nav-text">登陆，修改密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切换中文"><span class="nav-number">5.2.</span> <span class="nav-text">切换中文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快捷键"><span class="nav-number">5.3.</span> <span class="nav-text">快捷键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维护FIlemanager"><span class="nav-number">6.</span> <span class="nav-text">维护FIlemanager</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#升级FileBrowser"><span class="nav-number">6.1.</span> <span class="nav-text">升级FileBrowser</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卸载FileBrowser"><span class="nav-number">6.2.</span> <span class="nav-text">卸载FileBrowser</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可能遇到的问题"><span class="nav-number">7.</span> <span class="nav-text">可能遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动显示成功，但是实际未运行"><span class="nav-number">7.1.</span> <span class="nav-text">启动显示成功，但是实际未运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Caddy下载文件频繁中断"><span class="nav-number">7.2.</span> <span class="nav-text">Caddy下载文件频繁中断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Caddy启动失败，打开-http-ip-显示的是-It-works"><span class="nav-number">7.3.</span> <span class="nav-text">Caddy启动失败，打开 http://ip 显示的是 It works !</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-Caddy后，无法访问"><span class="nav-number">7.4.</span> <span class="nav-text">启动 Caddy后，无法访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileBrowser账号密码忘了或想要重置账号信息"><span class="nav-number">7.5.</span> <span class="nav-text">FileBrowser账号密码忘了或想要重置账号信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

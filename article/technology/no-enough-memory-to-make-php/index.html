@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="本文介绍了在编译PHP组件时候遇到内存不足提示virtual memory exhausted Cannot allocate memory的时候，如何增加SWAP虚拟内存来解决。">
+<meta name="keywords" content="PHP,fileinfo,SWAP,后端技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译安装PHP组件出现错误提示内存不足：virtual memory exhausted Cannot allocate memory">
+<meta property="og:url" content="https://huaien.me/article/technology/no-enough-memory-to-make-php/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="本文介绍了在编译PHP组件时候遇到内存不足提示virtual memory exhausted Cannot allocate memory的时候，如何增加SWAP虚拟内存来解决。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-28T02:33:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译安装PHP组件出现错误提示内存不足：virtual memory exhausted Cannot allocate memory">
+<meta name="twitter:description" content="本文介绍了在编译PHP组件时候遇到内存不足提示virtual memory exhausted Cannot allocate memory的时候，如何增加SWAP虚拟内存来解决。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/technology/no-enough-memory-to-make-php/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>编译安装PHP组件出现错误提示内存不足：virtual memory exhausted Cannot allocate memory | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/technology/no-enough-memory-to-make-php/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">编译安装PHP组件出现错误提示内存不足：virtual memory exhausted Cannot allocate memory
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-10 14:59:51" itemprop="dateCreated datePublished" datetime="2018-08-10T14:59:51+09:00">2018-08-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-28 11:33:32" itemprop="dateModified" datetime="2018-09-28T11:33:32+09:00">2018-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/technology/no-enough-memory-to-make-php/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/technology/no-enough-memory-to-make-php/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">本文介绍了在编译PHP组件时候遇到内存不足提示virtual memory exhausted Cannot allocate memory的时候，如何增加SWAP虚拟内存来解决。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>前面一篇我们介绍了<a href="https://huaien.me/article/backend/bt-panel-install-fileinfo-for-php/">宝塔面板的PHP默认不安装fileinfo组件，需要手动编译安装</a>。在php5.6上是没有出现问题，但是在编译php7.1的版本的<code>make &amp;&amp; make install</code>这一步出现错误，提示：<br><a id="more"></a></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virtual memory <span class="string">exhausted:</span> Cannot allocate memory</span><br><span class="line"><span class="string">Makefile:</span><span class="number">197</span>: recipe <span class="keyword">for</span> target <span class="string">'libmagic/apprentice.lo'</span> failed</span><br></pre></td></tr></table></figure>
+<p>下面是make编译后的详细信息：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo# make &amp;&amp; make install /</span>bin<span class="regexp">/sh /</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo<span class="regexp">/libtool --mode=compile cc -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo<span class="regexp">/libmagic -I. -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo -DPHP_ATOM_INC -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo/</span>include -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo/</span>main -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php/</span>main -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php<span class="regexp">/TSRM -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php/</span>Zend -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php<span class="regexp">/ext -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php/</span>ext<span class="regexp">/date/</span>lib  -DHAVE_CONFIG_H  -g -O2   -c <span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo/</span>libmagic<span class="regexp">/apprentice.c -o libmagic/</span>apprentice.lo</span><br><span class="line"> cc -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo/</span>libmagic -I. -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/src/</span>ext<span class="regexp">/fileinfo -DPHP_ATOM_INC -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo<span class="regexp">/include -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo<span class="regexp">/main -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php<span class="regexp">/main -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php/</span>TSRM -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php<span class="regexp">/Zend -I/</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>include<span class="regexp">/php/</span>ext -I<span class="regexp">/www/</span>server<span class="regexp">/php/</span><span class="number">71</span><span class="regexp">/include/</span>php<span class="regexp">/ext/</span>date<span class="regexp">/lib -DHAVE_CONFIG_H -g -O2 -c /</span>www<span class="regexp">/server/</span>php<span class="regexp">/71/</span>src<span class="regexp">/ext/</span>fileinfo<span class="regexp">/libmagic/</span>apprentice.c  -fPIC -DPIC -o libmagic<span class="regexp">/.libs/</span>apprentice.o</span><br><span class="line">virtual memory <span class="string">exhausted:</span> Cannot allocate memory</span><br><span class="line"><span class="string">Makefile:</span><span class="number">197</span>: recipe <span class="keyword">for</span> target <span class="string">'libmagic/apprentice.lo'</span> failed</span><br><span class="line"><span class="string">make:</span> *** [libmagic/apprentice.lo] Error <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>==这个意思是内存不足，无法完成编译。==</p>
+<p>本次使用的是AWS t2.micro配置的EC2实例，实际上其内存有1GB，但是还是出现本次的错误，应该是同时运行的其他程序导致内存不足。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>既然这样，物理内存不足我们没办法，但是可以通过自行增加虚拟内存的方法来解决。</p>
+<h3 id="通过free-m来查看下内存使用状况"><a href="#通过free-m来查看下内存使用状况" class="headerlink" title="通过free -m来查看下内存使用状况"></a>通过free -m来查看下内存使用状况</h3><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># free -m</span></span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           <span class="number"> 990 </span>       <span class="number"> 466 </span>       <span class="number"> 447 </span>         <span class="number"> 3 </span>        <span class="number"> 76 </span>        401</span><br><span class="line">Swap:            <span class="number"> 0 </span>         <span class="number"> 0 </span>          0</span><br></pre></td></tr></table></figure>
+<h3 id="创建一个目录-opt-images"><a href="#创建一个目录-opt-images" class="headerlink" title="创建一个目录/opt/images/"></a>创建一个目录/opt/images/</h3><p> 你可以自己定路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mkdir /opt/images/</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> rm -rf /opt/images/swap</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建一个2GB大小的文件"><a href="#创建一个2GB大小的文件" class="headerlink" title="创建一个2GB大小的文件"></a>创建一个2GB大小的文件</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># dd if=/dev/zero of=/opt/images/swap bs=<span class="number">1024</span> count=<span class="number">2048000</span></span><br><span class="line"><span class="number">2048000</span>+<span class="number">0</span> records in</span><br><span class="line"><span class="number">2048000</span>+<span class="number">0</span> records out</span><br><span class="line"><span class="number">2097152000</span> bytes (<span class="number">2.1</span> GB, <span class="number">2.0</span> GiB) copied, <span class="number">30.3635</span> s, <span class="number">69.1</span> MB/s</span><br></pre></td></tr></table></figure>
+<h3 id="把创建的文件变成SWAP分区"><a href="#把创建的文件变成SWAP分区" class="headerlink" title="把创建的文件变成SWAP分区"></a>把创建的文件变成SWAP分区</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mkswap /opt/images/swap</span><br><span class="line">Setting up swapspace version <span class="number">1</span>, size = <span class="number">2</span> GiB (<span class="number">2097147904</span> bytes)</span><br><span class="line">no label, UUID=dd2fa2db-f8bd<span class="number">-41</span>db<span class="number">-9e1</span>a<span class="number">-5</span>d9257924c6f</span><br></pre></td></tr></table></figure>
+<h3 id="启用这个SWAP文件"><a href="#启用这个SWAP文件" class="headerlink" title="启用这个SWAP文件"></a>启用这个SWAP文件</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># swapon /opt/images/swap</span></span><br><span class="line"><span class="symbol">swapon:</span> /opt/images/<span class="keyword">swap</span>: insecure permissions <span class="number">0644</span>, <span class="number">0600</span> suggested.</span><br></pre></td></tr></table></figure>
+<h3 id="看看SWAP是否生效"><a href="#看看SWAP是否生效" class="headerlink" title="看看SWAP是否生效"></a>看看SWAP是否生效</h3><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># free -m</span></span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           <span class="number"> 990 </span>       <span class="number"> 467 </span>        <span class="number"> 64 </span>         <span class="number"> 3 </span>       <span class="number"> 458 </span>        356</span><br><span class="line">Swap:         <span class="number"> 1999 </span>         <span class="number"> 0 </span>       1999</span><br></pre></td></tr></table></figure>
+<p>可以看到的确有2GB的SWAP内存</p>
+<h3 id="然后回到原来的作业"><a href="#然后回到原来的作业" class="headerlink" title="然后回到原来的作业"></a>然后回到原来的作业</h3><p>使用<code>cd -</code>回到原来的<code>/www/server/php/71/src/ext/fileinfo</code>目录</p>
+<h3 id="继续编译fileinfo"><a href="#继续编译fileinfo" class="headerlink" title="继续编译fileinfo"></a>继续编译fileinfo</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># <span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure>
+<p>执行成功</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">See any operating system documentation about shared libraries for</span><br><span class="line">more information, such as the ld(1) and ld.so(8) manual pages.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build complete.</span><br><span class="line">Don't forget to run <span class="emphasis">'make test'</span>.</span><br><span class="line"></span><br><span class="line">Installing shared extensions:     /www/server/php/71/lib/php/extensions/no-debug-non-zts-20160303/</span><br></pre></td></tr></table></figure>
+<h3 id="完成后关闭SWAP"><a href="#完成后关闭SWAP" class="headerlink" title="完成后关闭SWAP"></a>完成后关闭SWAP</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> swapoff swap</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> rm -f /opt/images/swap</span></span><br></pre></td></tr></table></figure>
+<p>以后再出现内存不足可以通过增加SWAP虚拟内存来解决~</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/chenpingzhao/p/4820814.html" target="_blank" rel="noopener">https://www.cnblogs.com/chenpingzhao/p/4820814.html</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/technology/no-enough-memory-to-make-php/" title="编译安装PHP组件出现错误提示内存不足：virtual memory exhausted Cannot allocate memory">https://huaien.me/article/technology/no-enough-memory-to-make-php/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/后端技术/" rel="tag"><i class="fa fa-tag"></i> 后端技术</a>
+          
+            <a href="/tags/PHP/" rel="tag"><i class="fa fa-tag"></i> PHP</a>
+          
+            <a href="/tags/fileinfo/" rel="tag"><i class="fa fa-tag"></i> fileinfo</a>
+          
+            <a href="/tags/SWAP/" rel="tag"><i class="fa fa-tag"></i> SWAP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/bt-panel-install-fileinfo-for-php/" rel="next" title="宝塔面板安装Flarum轻论坛程序时提示The PHP extension 'fileinfo' is required">
+                <i class="fa fa-chevron-left"></i> 宝塔面板安装Flarum轻论坛程序时提示The PHP extension 'fileinfo' is required
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/technology/ssh-key-generator-git/" rel="prev" title="Git生成 SSH 公钥添加到GitHub和Coding.net">
+                Git生成 SSH 公钥添加到GitHub和Coding.net <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">127</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lance.moe" title="Lance.Moe" target="_blank">Lance.Moe</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">2.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决办法"><span class="nav-number">3.</span> <span class="nav-text">解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过free-m来查看下内存使用状况"><span class="nav-number">3.1.</span> <span class="nav-text">通过free -m来查看下内存使用状况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个目录-opt-images"><span class="nav-number">3.2.</span> <span class="nav-text">创建一个目录/opt/images/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个2GB大小的文件"><span class="nav-number">3.3.</span> <span class="nav-text">创建一个2GB大小的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把创建的文件变成SWAP分区"><span class="nav-number">3.4.</span> <span class="nav-text">把创建的文件变成SWAP分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用这个SWAP文件"><span class="nav-number">3.5.</span> <span class="nav-text">启用这个SWAP文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#看看SWAP是否生效"><span class="nav-number">3.6.</span> <span class="nav-text">看看SWAP是否生效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后回到原来的作业"><span class="nav-number">3.7.</span> <span class="nav-text">然后回到原来的作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续编译fileinfo"><span class="nav-number">3.8.</span> <span class="nav-text">继续编译fileinfo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成后关闭SWAP"><span class="nav-number">3.9.</span> <span class="nav-text">完成后关闭SWAP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

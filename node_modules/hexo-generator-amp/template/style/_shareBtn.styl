@@ -1,0 +1,42 @@
+//-----------------------------
+// share button
+//-----------------------------
+.social-share
+  margin: content-margin * 0.5 content-margin-side
+  display: flex
+  justify-content: center
+  amp-social-share , .sbtn
+    margin: 5px
+
+.sbtn
+  padding: 0
+  width: font-size * 4
+  height: font-size * 3
+  line-height: font-size * 3
+  color: color-background
+  font-size: font-size * 1.2
+  text-align: center
+  border-radius: 4px
+  &:hover
+    color: color-background
+.btn-enable
+  SimpleBtn(darken(color-mail-flat,10))
+.tw
+  SimpleBtn(color-twitter-flat)
+.fb
+  SimpleBtn(color-facebook-flat)
+.ht
+  SimpleBtn(color-hatena-flat)
+.gp
+  SimpleBtn(color-google-flat)
+.ig
+  SimpleBtn(color-instagram-flat)
+.tb
+  SimpleBtn(color-tumblr-flat)
+.gd
+  SimpleBtn(color-gold-flat)
+.icon-hatena
+  &:before
+    content: "B"
+    font-weight: bold
+    font-size: font-size * 1.2

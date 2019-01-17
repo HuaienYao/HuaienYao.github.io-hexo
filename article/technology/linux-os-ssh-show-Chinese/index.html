@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="在使用服务器的时候，用SSH工具例如Putty连接Linux系统的服务器，在出现中文的时候会显示乱码，这个时候需要一些修改，就可以让Linux系统在SSH终端中正常显示中文。">
+<meta name="keywords" content="Linux,SSH,编码,乱码,后端技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决Linux系统SSH终端显示中文乱码以centos为例">
+<meta property="og:url" content="https://huaien.me/article/technology/linux-os-ssh-show-Chinese/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="在使用服务器的时候，用SSH工具例如Putty连接Linux系统的服务器，在出现中文的时候会显示乱码，这个时候需要一些修改，就可以让Linux系统在SSH终端中正常显示中文。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvntln8qacj30gj09sgmt">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvntwapar7j30gj09sdg3">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvnt7nzrshj30cy0argmv">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvnt9pnoisj30c90fpjsa">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvntbuqak3j30cy0ap0u2">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvnteux1qej30gj09s756">
+<meta property="og:updated_time" content="2018-09-28T02:36:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决Linux系统SSH终端显示中文乱码以centos为例">
+<meta name="twitter:description" content="在使用服务器的时候，用SSH工具例如Putty连接Linux系统的服务器，在出现中文的时候会显示乱码，这个时候需要一些修改，就可以让Linux系统在SSH终端中正常显示中文。">
+<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fvntln8qacj30gj09sgmt">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/technology/linux-os-ssh-show-Chinese/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>解决Linux系统SSH终端显示中文乱码以centos为例 | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/technology/linux-os-ssh-show-Chinese/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">解决Linux系统SSH终端显示中文乱码以centos为例
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-27 08:40:26" itemprop="dateCreated datePublished" datetime="2018-09-27T08:40:26+09:00">2018-09-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-28 11:36:09" itemprop="dateModified" datetime="2018-09-28T11:36:09+09:00">2018-09-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/technology/" itemprop="url" rel="index"><span itemprop="name">技术记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/technology/linux-os-ssh-show-Chinese/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/technology/linux-os-ssh-show-Chinese/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">在使用服务器的时候，用SSH工具例如Putty连接Linux系统的服务器，在出现中文的时候会显示乱码，这个时候需要一些修改，就可以让Linux系统在SSH终端中正常显示中文。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <p><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvntln8qacj30gj09sgmt" alt=""><br>如果没有设置好编码，在SSH客户端连接Linux服务器的时候就是像上面那样显示效果。不过经过设置，可以正常显示中文。</p>
+<h2 id="查看当前系统编码设置"><a href="#查看当前系统编码设置" class="headerlink" title="查看当前系统编码设置"></a>查看当前系统编码设置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$LANG</span></span></span><br><span class="line">C</span><br></pre></td></tr></table></figure>
+<p>返回的值为C，可以知道当前的系统语言编码设置为C</p>
+<h2 id="查看当前系统的中文支持"><a href="#查看当前系统的中文支持" class="headerlink" title="查看当前系统的中文支持"></a>查看当前系统的中文支持</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># locale -a | grep zh_CN</span></span><br><span class="line">zh_CN</span><br><span class="line">zh_CN.gb18030</span><br><span class="line">zh_CN.gb2312</span><br><span class="line">zh_CN.gbk</span><br><span class="line">zh_CN.utf8</span><br></pre></td></tr></table></figure>
+<p>以上列出的为当前系统可用中文字符集</p>
+<blockquote>
+<p>vim 只能正确识别列表中的中文编码文件，如需识别其他编码类型的中文文件，则需要做系统升级。</p>
+</blockquote>
+<h2 id="修改Linux系统的编码文件"><a href="#修改Linux系统的编码文件" class="headerlink" title="修改Linux系统的编码文件"></a>修改Linux系统的编码文件</h2><p>以下操作在root权限下操作。</p>
+<h3 id="临时生效，重启失效"><a href="#临时生效，重启失效" class="headerlink" title="临时生效，重启失效"></a>临时生效，重启失效</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">export</span> LANG=<span class="string">"zh_CN.UTF-8"</span></span></span><br></pre></td></tr></table></figure>
+<p>查看编码设置是否变更为zh_CN.UTF-8<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">echo</span> <span class="variable">$LANG</span></span></span><br><span class="line">zh_CN.UTF-8</span><br></pre></td></tr></table></figure></p>
+<h3 id="永久生效"><a href="#永久生效" class="headerlink" title="永久生效"></a>永久生效</h3><p>只需要编辑/etc/sysconfig/i18n文件就好了</p>
+<p>用vi编辑<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> vi /etc/sysconfig/i18n</span></span><br></pre></td></tr></table></figure></p>
+<p>在原来的内容前加上“#”注释掉</p>
+<p>并添加一行</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LANG</span>=<span class="string">"zh_CN.UTF-8"</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvntwapar7j30gj09sdg3" alt=""></p>
+<p>按esc退出insert模式</p>
+<p>底行模式下输入<code>:wq</code>保存退出</p>
+<p>用下面其中一种命令使修改生效</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">source</span> <span class="regexp">/etc/</span>sysconfig<span class="regexp">/i18n</span></span><br></pre></td></tr></table></figure>
+<p>或者<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">. </span>/etc/sysconfig/i18n</span><br></pre></td></tr></table></figure></p>
+<p>附带网上几个版本的i18n配置文件</p>
+<p>这个版本最普遍，当时可能是我的客户端没有找到这个编码导致还是有些中文无法显示。<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LANG</span>=<span class="string">"zh_CN.GB18030"</span></span><br><span class="line"><span class="attr">SUPPORTED</span>=<span class="string">"zh_CN.UTF-8:zh_CN:zh:en_US.UTF-8:en_US:en:zh_CN.GB18030"</span></span><br><span class="line"><span class="attr">SYSFONT</span>=<span class="string">"latarcyrheb-sun16"</span></span><br></pre></td></tr></table></figure></p>
+<p>下面这个可以完全显示。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LANG</span>=<span class="string">"zh_CN.UTF-8"</span>  </span><br><span class="line"><span class="attr">SUPPORTED</span>=<span class="string">"zh_CN.UTF-8:zh_CN:zh"</span>  </span><br><span class="line"><span class="attr">SYSFONT</span>=<span class="string">"latarcyrheb-sun16"</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改Putty客户端的编码设置"><a href="#修改Putty客户端的编码设置" class="headerlink" title="修改Putty客户端的编码设置"></a>修改Putty客户端的编码设置</h2><p>其他的客户端也需要设置，方法差不多。</p>
+<p>putty设置</p>
+<p>左侧设置类别的Window-Appearance，右侧的Font settings的Change按钮</p>
+<p><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvnt7nzrshj30cy0argmv" alt=""></p>
+<p>在字体设置中字体选择带有中文的字体如下图选择楷体Kaiti ，在下方的文字设置选择中文。OK确定</p>
+<p><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvnt9pnoisj30c90fpjsa" alt=""></p>
+<p>设置类别的Windows-Translation，右侧如图选择UTF-8编码。这里要选择之前设置的服务器配置文件设置的编码。</p>
+<p><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvntbuqak3j30cy0ap0u2" alt=""></p>
+<p>以上就是putty客户端的编码设置。</p>
+<h2 id="正常显示中文效果"><a href="#正常显示中文效果" class="headerlink" title="正常显示中文效果"></a>正常显示中文效果</h2><p>经过上面一系列的设置，就可以在SSH终端中正常显示中文了<br><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fvnteux1qej30gj09s756" alt=""></p>
+<h2 id="学到的几个Linux命令"><a href="#学到的几个Linux命令" class="headerlink" title="学到的几个Linux命令"></a>学到的几个Linux命令</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#全局系统环境变量配置文件</span></span><br><span class="line">echo <span class="string">'export LANG="ZH_CN.GB18030"'</span> <span class="meta">&gt;&gt;</span>/etc/profile</span><br></pre></td></tr></table></figure>
+<p>　<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使配置生效</span></span><br><span class="line">source <span class="regexp">/etc/</span>profile</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看结果</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$LANG</span></span><br></pre></td></tr></table></figure>
+<h2 id="更改脚本字符集"><a href="#更改脚本字符集" class="headerlink" title="更改脚本字符集"></a>更改脚本字符集</h2><p>有时候脚本内容出现中文乱码，也可以在脚本里面更改字符集</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">　<span class="built_in">export</span> LANG=<span class="string">"ZH_CN.GB18030"</span></span><br><span class="line">　（脚本内容）</span><br></pre></td></tr></table></figure>
+<h2 id="批量文件转码命令"><a href="#批量文件转码命令" class="headerlink" title="批量文件转码命令"></a>批量文件转码命令</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">iconv</span> -c -f gbk -t utf-<span class="number">8</span> <span class="variable">$data_path</span>/<span class="variable">$item_uv</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>最后付上原centos默认编码配置文件内容</p>
+<p>位置</p>
+<p>/etc/sysconfig/i18n<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LANG</span>=C</span><br><span class="line"><span class="attr">SYSFONT</span>=latarcyrheb-sun16</span><br></pre></td></tr></table></figure></p>
+<p>参考自 </p>
+<p><a href="https://blog.csdn.net/wzb56_earl/article/details/24046995" target="_blank" rel="noopener">https://blog.csdn.net/wzb56_earl/article/details/24046995</a></p>
+<p><a href="https://blog.csdn.net/wusuopuBUPT/article/details/50947243" target="_blank" rel="noopener">https://blog.csdn.net/wusuopuBUPT/article/details/50947243</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/technology/linux-os-ssh-show-Chinese/" title="解决Linux系统SSH终端显示中文乱码以centos为例">https://huaien.me/article/technology/linux-os-ssh-show-Chinese/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          
+            <a href="/tags/后端技术/" rel="tag"><i class="fa fa-tag"></i> 后端技术</a>
+          
+            <a href="/tags/SSH/" rel="tag"><i class="fa fa-tag"></i> SSH</a>
+          
+            <a href="/tags/编码/" rel="tag"><i class="fa fa-tag"></i> 编码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/wordpress-install-plugin-show-ftp-info/" rel="next" title="解决wordpress后台安装插件时提示需要ftp账号和密码">
+                <i class="fa fa-chevron-left"></i> 解决wordpress后台安装插件时提示需要ftp账号和密码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/internet/become-cloudflare-partner/" rel="prev" title="如何申请成为Cloudflare Partner合作伙伴">
+                如何申请成为Cloudflare Partner合作伙伴 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">128</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lance.moe" title="Lance.Moe" target="_blank">Lance.Moe</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前系统编码设置"><span class="nav-number">1.</span> <span class="nav-text">查看当前系统编码设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前系统的中文支持"><span class="nav-number">2.</span> <span class="nav-text">查看当前系统的中文支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改Linux系统的编码文件"><span class="nav-number">3.</span> <span class="nav-text">修改Linux系统的编码文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#临时生效，重启失效"><span class="nav-number">3.1.</span> <span class="nav-text">临时生效，重启失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#永久生效"><span class="nav-number">3.2.</span> <span class="nav-text">永久生效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改Putty客户端的编码设置"><span class="nav-number">4.</span> <span class="nav-text">修改Putty客户端的编码设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正常显示中文效果"><span class="nav-number">5.</span> <span class="nav-text">正常显示中文效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学到的几个Linux命令"><span class="nav-number">6.</span> <span class="nav-text">学到的几个Linux命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改脚本字符集"><span class="nav-number">7.</span> <span class="nav-text">更改脚本字符集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量文件转码命令"><span class="nav-number">8.</span> <span class="nav-text">批量文件转码命令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

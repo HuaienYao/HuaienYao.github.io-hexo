@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-flash.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+  <meta name="description" content="在2017年左右，看到论坛还有一些大佬的博客在讨论申请CloudFlare Partner，当时并没多大兴趣去研究，最近因为看到越来越多人开源了面板，所以也想试试，就申请了CloudFlare Partner合作伙伴计划。本文记录了如何申请CloudFlare Partner合作伙伴计划。">
+<meta name="keywords" content="CloudFlare Partner,CDN,SSL,合作伙伴,CNAME解析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何申请成为Cloudflare Partner合作伙伴">
+<meta property="og:url" content="https://huaien.me/article/internet/become-cloudflare-partner/index.html">
+<meta property="og:site_name" content="Wyane&#39;s Blog">
+<meta property="og:description" content="在2017年左右，看到论坛还有一些大佬的博客在讨论申请CloudFlare Partner，当时并没多大兴趣去研究，最近因为看到越来越多人开源了面板，所以也想试试，就申请了CloudFlare Partner合作伙伴计划。本文记录了如何申请CloudFlare Partner合作伙伴计划。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bjkwemzj310d0h5768">
+<meta property="og:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bna1j9qj30cd0em74w">
+<meta property="og:updated_time" content="2018-10-11T08:23:30.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何申请成为Cloudflare Partner合作伙伴">
+<meta name="twitter:description" content="在2017年左右，看到论坛还有一些大佬的博客在讨论申请CloudFlare Partner，当时并没多大兴趣去研究，最近因为看到越来越多人开源了面板，所以也想试试，就申请了CloudFlare Partner合作伙伴计划。本文记录了如何申请CloudFlare Partner合作伙伴计划。">
+<meta name="twitter:image" content="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bjkwemzj310d0h5768">
+
+
+
+
+
+
+  <link rel="canonical" href="https://huaien.me/article/internet/become-cloudflare-partner/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何申请成为Cloudflare Partner合作伙伴 | Wyane's Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122761254-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122761254-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wyane's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">Record Life and Study</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://huaien.me/article/internet/become-cloudflare-partner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wyane">
+      <meta itemprop="description" content="Find something interesting.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wyane's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">如何申请成为Cloudflare Partner合作伙伴
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-11 15:01:37 / 修改时间：17:23:30" itemprop="dateCreated datePublished" datetime="2018-10-11T15:01:37+09:00">2018-10-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/internet/" itemprop="url" rel="index"><span itemprop="name">网络资源</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/article/internet/become-cloudflare-partner/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/article/internet/become-cloudflare-partner/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+                
+          
+              <div class="post-description">在2017年左右，看到论坛还有一些大佬的博客在讨论申请CloudFlare Partner，当时并没多大兴趣去研究，最近因为看到越来越多人开源了面板，所以也想试试，就申请了CloudFlare Partner合作伙伴计划。本文记录了如何申请CloudFlare Partner合作伙伴计划。</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+      
+      
+      
+
+      
+        <h2 id="什么是CloudFlare"><a href="#什么是CloudFlare" class="headerlink" title="什么是CloudFlare"></a>什么是CloudFlare</h2><p>CloudFlare想必大家还是挺熟悉的，作为世界最大的CDN服务提供商之一，CloudFlare不但提供了免费的域名DNS解析服务，包括了HTTPS加密的免费的CDN服务，还有吊炸天的1.1.1.1 1.0.0.1的公共DNS服务。而且解析速度非常之快，我也将自己10个左右的域名托管在CloudFlare的DNS解析服务上。试过如果添加解析记录或者修改解析记录后，几乎即时生效，虽然说这样有好有坏，但是反应速度之快，真的让我吓一跳。</p>
+<h2 id="什么是CloudFlare-Partner"><a href="#什么是CloudFlare-Partner" class="headerlink" title="什么是CloudFlare Partner"></a>什么是CloudFlare Partner</h2><p>上面提到了CloudFlare提供域名解析服务和CDN服务等，但是如果你使用的是免费套餐，必须把域名的NS服务器改为CloudFlare提供的地址，虽然大部分DNS解析服务商都是如此，但是有很多人不愿意修改DNS服务器，比如用了DNSPOD的智能解析服务，如果用NS解析来使用CloudFlare的话，就无法使用DNSPOD的解析服务。但是通过CloudFlare Partner合作伙伴计划，我们可以通过另一种方法来使用CloudFlare的DNS解析和CDN服务。</p>
+<p>这就是通过解析cname记录来使用CloudFlare的服务。这样可以使用他们提供的SSL证书来开启HTTPS和CDN服务。<br>CloudFlare Partner其实就是CloudFlare为了拓展用户提供的合作分销计划。旨在为开发者或者主机提供商提供便利的API服务以拓展用户。用户不需要登录CloudFlare官网来管理域名解析，可以在WHMCS、Cpanel等面板中使用集成的Cloudflare CDN加速服务。</p>
+<h2 id="申请CloudFlare-Partner"><a href="#申请CloudFlare-Partner" class="headerlink" title="申请CloudFlare Partner"></a>申请CloudFlare Partner</h2><h3 id="填写信息"><a href="#填写信息" class="headerlink" title="填写信息"></a>填写信息</h3><p>申请CloudFlare Partner页面：</p>
+<p><a href="https://www.cloudflare.com/partners/become-a-partner/" target="_blank" rel="noopener">https://www.cloudflare.com/partners/become-a-partner/</a></p>
+<p>打开后界面如下</p>
+<p><a href="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bjkwemzj310d0h5768" target="_blank" rel="noopener"><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bjkwemzj310d0h5768" alt=""></a></p>
+<p>自上而下需要填入的信息为</p>
+<ul>
+<li>公司名称 （这个你可以只要域名名字，比如abc.com的话写abc）</li>
+<li>==业务类目== *（这里我第一次选择了Web Designer/Developer被拒绝，回信说合作伙伴计划是提供给主机提供商的服务。）</li>
+<li>网址 （你自己的域名如<a href="https://abc.com）" target="_blank" rel="noopener">https://abc.com）</a></li>
+<li>名字</li>
+<li>姓氏</li>
+<li>职位 （这个虽然为非必填，但是我填了申请成功）</li>
+<li>==联系邮箱== *（这里为重点，需要使用企业邮箱，没有的话也可以用域名邮箱。比如QQ的域名邮箱，申请方便，可以接收到信。另外邮箱格式最好为<a href="mailto:admin@abc.com" target="_blank" rel="noopener">admin@abc.com</a>这样的，虽然我用的是<a href="mailto:w@abc.com" target="_blank" rel="noopener">w@abc.com</a>这样的）</li>
+<li>联系电话 （格式为+8613912345678）</li>
+<li>通过什么途径知道的 （我选择的Customer request，客户要求）</li>
+<li>备注 （可以放空）</li>
+</ul>
+<p>最后我填写的资料差不多是下面这样的<br><a href="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bna1j9qj30cd0em74w" target="_blank" rel="noopener"><img src="https://ww1.sinaimg.cn/large/005YhI8igy1fw4bna1j9qj30cd0em74w" alt=""></a></p>
+<p>但是我前两次申请失败了。第一次因为选择业务类目选择的网页设计者/开发者，第二次还是用一样信息只是业务类目改为VPS/服务器提供商，估计是留底了。</p>
+<p>点击提交后你的邮箱就会收到邮件</p>
+<blockquote>
+<p>XXX – [Cloudflare]: Application Received<br>Dear XXX,</p>
+<p>Thank you for applying to Cloudflare’s Certified Partner Program. Your application has been submitted. We review all applications and respond shortly.</p>
+<p>Cloudflare offers many benefits to you as a service provider:</p>
+<ul>
+<li>Reduced server load</li>
+<li>Bandwidth savings</li>
+<li>Fewer customer support tickets</li>
+<li>Mitigation of DDoS attacks</li>
+<li>IPv4 / IPv6 gateway</li>
+</ul>
+<p>On average, a website on Cloudflare:</p>
+<ul>
+<li>Loads twice as fast, on an international CDN</li>
+<li>Uses 60% less bandwidth</li>
+<li>Sees 65% fewer requests</li>
+<li>Is way more secure</li>
+</ul>
+<p>Thank you for your interest in Cloudflare.</p>
+<p>Regards,<br>The Cloudflare Team</p>
+</blockquote>
+<p>第一次申请不到五个小时就回信说拒绝了</p>
+<blockquote>
+<p>XXX – [Cloudflare] Application Declined</p>
+<p>Dear XXX,</p>
+<p>Thank you for your interest in Cloudflare’s Certified Hosting Provider program. Unfortunately at this time, Cloudflare has declined your application to become a partner in this program.</p>
+<p>The program is created for hosting providers offering commercial hosting only. I’d like to encourage you to sign up for Cloudflare directly, take a look at our plans here: <a href="http://www.cloudflare.com/plans" target="_blank" rel="noopener">www.cloudflare.com/plans</a></p>
+<p>We apologize for any inconvenience that this may cause. If you feel that this decision was reached in error, please contact us at <a href="mailto:partners@cloudflare.com" target="_blank" rel="noopener">partners@cloudflare.com</a>.</p>
+<p>Regards,<br>The Cloudflare Team</p>
+</blockquote>
+<p>第二次只是修改了业务类目为VPS还是拒绝，但是时间花了将近5天才回复。</p>
+<p>拒绝的原因还是一样，估计是我这个域名没有写有关主机相关的内容吧，后来看到其他人说可以通过反代一个VPS博客就可以，于是就换了一个com域名反代了一个主机博客。申请后大概过了一天回信通过。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">[Cloudflare] Partnership Application Approved for XXX</span><br><span class="line"></span><br><span class="line">Congratulations - you've been approved for Cloudflare's Certified Partner Program!</span><br><span class="line"></span><br><span class="line">Follow these four steps to get up and running:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Step 1: Log into the Cloudflare Partner Portal</span><br><span class="line"></span><br><span class="line"><span class="keyword">Set</span> Your <span class="keyword">Password</span>: https://partners.cloudflare.com/<span class="keyword">reset</span>-<span class="keyword">password</span>/XXXX</span><br><span class="line"></span><br><span class="line"><span class="keyword">In</span> the partner portal, you will be able <span class="keyword">to</span> manage your <span class="keyword">and</span> your customers<span class="string">' services with Cloudflare as well as use it as a central source of news and information about Cloudflare.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Step 2: Integrate your control panels, billing system, or online store</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To make it easy for your customers to sign up, Cloudflare offers several options to make this easy. We have pre-created plugins for popular control panel systems like cPanel, Parallels Plesk Panel, Interworx, and ISPsystem. For other systems or for custom systems, Cloudflare offers a documented Host API with which you can integrate. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Plugin downloads, your Host API access key, and many other resources can be found in the Cloudflare Partner Portal at: https://partners.cloudflare.com</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Step 3: Preserve Original Visitor IP in Log Files</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">All requests to a Cloudflare protected website will come from the Cloudflare IP address ranges: http://www.cloudflare.com/ips</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">DO NOT THROTTLE OR RATE-LIMIT these IP addresses, or your customers'</span> website visitors will see a <span class="string">"Website Offline"</span> page.</span><br><span class="line"></span><br><span class="line">Cloudflare passes the original visitor IP address <span class="keyword">in</span> the header <span class="keyword">of</span> every request. <span class="keyword">To</span> retrieve the original visitor IP <span class="keyword">from</span> the header, <span class="keyword">install</span> the appropriate software <span class="keyword">on</span> your <span class="keyword">server</span>, you can find download links <span class="keyword">in</span> the Cloudflare Partner Portal <span class="keyword">at</span> https://partners.cloudflare.com. (Note: <span class="keyword">If</span> you <span class="keyword">use</span> the cPanel <span class="keyword">plugin</span> <span class="keyword">and</span> <span class="keyword">are</span> running Apache, the visitor IP software will automatically be installed).</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Step <span class="number">4</span>: <span class="keyword">Enable</span> Cloudflare <span class="keyword">for</span> Three <span class="keyword">Test</span> Websites</span><br><span class="line"></span><br><span class="line"><span class="keyword">To</span> ensure that Cloudflare was properly installed, <span class="keyword">enable</span> Cloudflare <span class="keyword">for</span> three <span class="keyword">test</span> websites <span class="keyword">from</span> your control panel.</span><br><span class="line"></span><br><span class="line"><span class="keyword">To</span> <span class="keyword">check</span> <span class="keyword">if</span> a website <span class="keyword">is</span> <span class="keyword">on</span> Cloudflare, <span class="keyword">use</span> Terminal. <span class="keyword">Open</span> Terminal, <span class="keyword">and</span> enter the <span class="keyword">following</span> dig command.</span><br><span class="line"></span><br><span class="line">    dig www.mydomain.com</span><br><span class="line"></span><br><span class="line"><span class="keyword">Output</span> <span class="keyword">without</span> Cloudflare-enabled:</span><br><span class="line"></span><br><span class="line">    www.mydomain.com   <span class="number">10782</span>   <span class="keyword">IN</span>   CNAME      www.mydomain.com</span><br><span class="line"></span><br><span class="line"><span class="keyword">Output</span> <span class="keyword">with</span> Cloudflare-enabled:</span><br><span class="line"></span><br><span class="line">    www.mydomain.com    <span class="number">10782</span>  <span class="keyword">IN</span>           CNAME   www.mydomain.com.cdn.cloudflare.net.</span><br><span class="line"></span><br><span class="line"><span class="keyword">If</span> you see <span class="string">'.cdn.cloudflare.net'</span> <span class="keyword">at</span> the <span class="keyword">end</span>, <span class="keyword">then</span> Cloudflare <span class="keyword">is</span> enabled.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Understanding How Cloudflare Integrates:</span><br><span class="line">- The plugins <span class="keyword">and</span> API provision Cloudflare via delegating CNAMEs. Your customers continue <span class="keyword">to</span> point their <span class="keyword">domain</span> <span class="keyword">to</span> your authoritative DNS servers. You <span class="keyword">do</span> the delegation <span class="keyword">for</span> them via the plugins <span class="keyword">or</span> API. Note: this <span class="keyword">is</span> different <span class="keyword">than</span> websites that <span class="keyword">sign</span> up <span class="keyword">at</span> cloudflare.com directly.</span><br><span class="line">- Since Cloudflare works <span class="keyword">through</span> CNAMEs, Cloudflare cannot be enabled <span class="keyword">on</span> the root <span class="keyword">domain</span>, which <span class="keyword">is</span> an A record. <span class="keyword">If</span> your customer wants <span class="keyword">to</span> <span class="keyword">use</span> Cloudflare <span class="keyword">to</span> accelerate <span class="keyword">and</span> protect traffic going <span class="keyword">to</span> the root <span class="keyword">domain</span>, they must <span class="keyword">add</span> a redirect <span class="keyword">in</span> the .htaccess <span class="keyword">file</span> <span class="keyword">to</span> <span class="string">'www'</span>.</span><br><span class="line">- <span class="keyword">As</span> a <span class="keyword">reference</span>, here <span class="keyword">is</span> one example:</span><br><span class="line"></span><br><span class="line">    RewriteEngine <span class="keyword">On</span></span><br><span class="line">    # Rewrite added <span class="keyword">for</span> CloudflareInstall - mysite.com</span><br><span class="line">    # Wednesday <span class="number">25</span>th <span class="keyword">of</span> August <span class="number">2010</span> <span class="number">04</span>:<span class="number">59</span>:<span class="number">42</span> AM</span><br><span class="line">    RewriteCond %&#123;HTTP_HOST&#125; ^mysite.com$ [NC]</span><br><span class="line">    RewriteCond %&#123;SERVER_PORT&#125; ^<span class="number">80</span>$</span><br><span class="line">    RewriteRule ^(.*)$ <span class="keyword">http</span>://www.mysite.com/$<span class="number">1</span> [R=<span class="number">301</span>,L]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Support Options:</span><br><span class="line">- Partner Technical Support: submit a question here: https://support.cloudflare.com/anonymous_requests/<span class="keyword">new</span></span><br><span class="line">    (Note: <span class="keyword">select</span> <span class="string">"Hosting Partners - Certified"</span> <span class="keyword">in</span> the dropdown menu)</span><br><span class="line">- Other: email partners@cloudflare.com</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Once you have installed Cloudflare <span class="keyword">and</span> enabled three <span class="keyword">test</span> websites, <span class="keyword">within</span> <span class="number">24</span> hours you will receive an email outlining <span class="keyword">next</span> steps <span class="keyword">and</span> a Launch Plan. We look forward <span class="keyword">to</span> getting you up <span class="keyword">and</span> running <span class="keyword">as</span> a Certified Partner.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Thanks!</span><br><span class="line">The Cloudflare Team</span><br></pre></td></tr></table></figure>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><p>看了一些人的申请攻略，总结了以下几点</p>
+<ol>
+<li>申请表填写的内容全部为英文，用中文填写会导致对方看不懂而拒绝申请。</li>
+<li>业务类型选择VPS/服务器</li>
+<li>内容要和VPS/服务器有关，如果你是主机推介博客，那就可以了，没有的话可以把你的域名反代一个主机推介博客。</li>
+<li>邮箱需要企业邮箱。就是<a href="mailto:name@yourdomainname.com" target="_blank" rel="noopener">name@yourdomainname.com</a>这种格式的。有人说用国内企业邮箱会导致收不到信，国内企业邮箱服务的确有这种可能信，但是我这次用的是QQ域名邮箱和腾讯企业邮箱都可以正常接收到邮件。</li>
+<li>关于申请理由，可填可不填，有些人说可以填写国内网络登录CloudFlare不稳定，因为客户需求，所以申请。但是我这次没填写也通过了。</li>
+</ol>
+<h2 id="申请通过后的步骤"><a href="#申请通过后的步骤" class="headerlink" title="申请通过后的步骤"></a>申请通过后的步骤</h2><p>通过邮件通知你申请被批准后，需要留意邮件中的链接，</p>
+<blockquote>
+<p>Step 1: Log into the Cloudflare Partner Portal</p>
+<p>Set Your Password: <a href="https://partners.cloudflare.com/reset-password/XXXX" target="_blank" rel="noopener">https://partners.cloudflare.com/reset-password/XXXX</a></p>
+</blockquote>
+<p>第一步就是让你点击链接进去修改密码。<br>接着登录进去后会让你填写问卷调查。</p>
+<p>填完点击下一步，就会显示你的CloudFlare Partner API，再返回到主页，你就可以看到Cloudflare Partner后台了。</p>
+<h2 id="使用Cloudflare-Partner部署域名"><a href="#使用Cloudflare-Partner部署域名" class="headerlink" title="使用Cloudflare Partner部署域名"></a>使用Cloudflare Partner部署域名</h2><p>有几种办法来通过Cloudflare Partner来部署解析域名。</p>
+<h3 id="自用的情况"><a href="#自用的情况" class="headerlink" title="自用的情况"></a>自用的情况</h3><p>通过Cloudflare Partner CLI来管理<br><a href="https://github.com/fffonion/cloudflare-partner-cli" target="_blank" rel="noopener">https://github.com/fffonion/cloudflare-partner-cli</a></p>
+<h3 id="使用他人搭建的面板"><a href="#使用他人搭建的面板" class="headerlink" title="使用他人搭建的面板"></a>使用他人搭建的面板</h3><p>我也用Cloudflare-CNAME-Setup搭建了一个<br><a href="https://cl.guosao.com" target="_blank" rel="noopener">https://cl.guosao.com</a></p>
+<h3 id="开源代码搭建面板"><a href="#开源代码搭建面板" class="headerlink" title="开源代码搭建面板"></a>开源代码搭建面板</h3><p>WeiUZ CloudFlare Partners PHP版本<br><a href="https://github.com/mphreys/WeiUZ" target="_blank" rel="noopener">https://github.com/mphreys/WeiUZ</a></p>
+<p>SonicBreaker<br><a href="https://github.com/AxelPanda/SonicBreaker/" target="_blank" rel="noopener">https://github.com/AxelPanda/SonicBreaker/</a></p>
+<p>CFPMP<br><a href="https://github.com/Netrvin/CFPMP" target="_blank" rel="noopener">https://github.com/Netrvin/CFPMP</a></p>
+<p>CloudFlare partner website with python and flask<br><a href="https://github.com/luodaoyi/CloudFlarePartner" target="_blank" rel="noopener">https://github.com/luodaoyi/CloudFlarePartner</a></p>
+<p>Cloudflare Partner Panel<br><a href="https://github.com/ZE3kr/Cloudflare-CNAME-Setup" target="_blank" rel="noopener">https://github.com/ZE3kr/Cloudflare-CNAME-Setup</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wzfou.com/cloudflare-partner/" target="_blank" rel="noopener">https://wzfou.com/cloudflare-partner/</a></p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/WeChatQR.png" alt="Wyane 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Wyane 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Wyane</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://huaien.me/article/internet/become-cloudflare-partner/" title="如何申请成为Cloudflare Partner合作伙伴">https://huaien.me/article/internet/become-cloudflare-partner/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SSL/" rel="tag"><i class="fa fa-tag"></i> SSL</a>
+          
+            <a href="/tags/CloudFlare-Partner/" rel="tag"><i class="fa fa-tag"></i> CloudFlare Partner</a>
+          
+            <a href="/tags/CDN/" rel="tag"><i class="fa fa-tag"></i> CDN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/article/technology/linux-os-ssh-show-Chinese/" rel="next" title="解决Linux系统SSH终端显示中文乱码以centos为例">
+                <i class="fa fa-chevron-left"></i> 解决Linux系统SSH终端显示中文乱码以centos为例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/article/technology/disqus-error-to-load/" rel="prev" title="Disqus提示无法加载的解决办法">
+                Disqus提示无法加载的解决办法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+   
+    
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Wyane" />
+            
+              <p class="site-author-name" itemprop="name">Wyane</p>
+              <p class="site-description motion-element" itemprop="description">Find something interesting.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">128</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://hanayao.com" title="Hanayao" target="_blank">Hanayao</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.do1024.com" title="肉松君" target="_blank">肉松君</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lance.moe" title="Lance.Moe" target="_blank">Lance.Moe</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是CloudFlare"><span class="nav-number">1.</span> <span class="nav-text">什么是CloudFlare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是CloudFlare-Partner"><span class="nav-number">2.</span> <span class="nav-text">什么是CloudFlare Partner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请CloudFlare-Partner"><span class="nav-number">3.</span> <span class="nav-text">申请CloudFlare Partner</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#填写信息"><span class="nav-number">3.1.</span> <span class="nav-text">填写信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意点"><span class="nav-number">3.2.</span> <span class="nav-text">注意点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请通过后的步骤"><span class="nav-number">4.</span> <span class="nav-text">申请通过后的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Cloudflare-Partner部署域名"><span class="nav-number">5.</span> <span class="nav-text">使用Cloudflare Partner部署域名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自用的情况"><span class="nav-number">5.1.</span> <span class="nav-text">自用的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用他人搭建的面板"><span class="nav-number">5.2.</span> <span class="nav-text">使用他人搭建的面板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源代码搭建面板"><span class="nav-number">5.3.</span> <span class="nav-text">开源代码搭建面板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2010 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wyane</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<p>Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a></p>   
+
+<!-- MetingJS start -->
+<link rel="stylesheet" href="/js/src/music/APlayer.min.css">
+<div class="aplayer" data-id="419792343" data-server="xiami" data-type="playlist" data-fixed="true" data-autoplay="false"
+    data-volume="0.6" data-order="random"></div>
+<script src="/js/src/music/APlayer.min.js"></script>
+<script src="/js/src/music/Meting.min.js"></script>
+<!-- MetingJS end -->
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="90" alpha="0.6"  zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'Xh68sAixWz57DyKqQ9zLs3fP-gzGzoHsz',
+        appKey: '2GtFoSCY3UfDRNNdvWbKGf7O',
+        placeholder: '看完不说点啥吗？',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: false
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
